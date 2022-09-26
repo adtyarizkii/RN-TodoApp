@@ -31,6 +31,10 @@ export default function TodoList({ navigation }) {
   const [idDelete, setIdDelete] = useState(null);
   const [service, setService] = useState("");
   const [date, setDate] = useState(new Date());
+  console.log(date);
+  const convertDate = dateFormat(date, "yyyy-mm-dd");
+  console.log(convertDate);
+  console.log(typeof convertDate);
 
   const getTodos = async () => {
     try {
@@ -38,7 +42,6 @@ export default function TodoList({ navigation }) {
       const response = await axios.get(
         "https://api.kontenbase.com/query/api/v1/af7c9231-cd1b-4c0c-af3c-6a8182f11074/todos?$lookup=*"
       );
-      console.log(response);
       setTodo(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -69,7 +72,7 @@ export default function TodoList({ navigation }) {
     return (
       <ListItem key={item._id}>
         <ListItem.Content>
-          <Pressable onPress={() => navigation.navigate("Detail")}>
+          <Pressable onPress={() => navigation.navigate("Detail", item)}>
             <Box backgroundColor="blue.200" style={{ overflow: "hidden" }}>
               <HStack justifyContent="space-between" space={2} px="3">
                 <VStack>
@@ -97,7 +100,7 @@ export default function TodoList({ navigation }) {
                 <VStack space={1} py="3">
                   <Box py="2" borderRadius={9} backgroundColor="blue.300">
                     <Text px={2} color="white" bold>
-                      {item.category[0].name}
+                      Todo
                     </Text>
                   </Box>
                   <Text textAlign="center" mt={3}>
